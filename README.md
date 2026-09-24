@@ -1,16 +1,60 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Лабораторная 4 — вёрстка
 
-Currently, two official plugins are available:
+### Цель работы
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Создать семантическую и адаптивную вёрстку сайта «АгроМаркет» с использованием HTML5, Flexbox и CSS Grid.
 
-## React Compiler
+### Box model карточки (часть 1)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Карточка товара использует CSS-свойство `box-sizing: border-box`.
 
-## Expanding the Oxlint configuration
+- Content: зависит от ширины колонки каталога.
+- Padding: 16px.
+- Border: 1px.
+- Margin: 0.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+При `box-sizing: border-box` внутренние отступы и границы включаются в заданную ширину элемента.
+
+### repeat(4, 1fr) на узком экране (часть 4)
+
+При фиксированной сетке из четырёх колонок карточки сильно сжимаются на узком экране.
+
+Для адаптивной сетки используется `repeat(auto-fit, minmax(...))`, позволяющий автоматически изменять количество колонок.
+
+### auto-fit vs auto-fill (часть 4)
+
+`auto-fit` позволяет существующим карточкам занимать свободное пространство.
+
+`auto-fill` сохраняет место для дополнительных колонок, даже когда товаров недостаточно для их заполнения.
+
+Для каталога выбран `auto-fit`.
+
+### Адаптивность (часть 5)
+
+| Ширина | Колонок | Где «Доставка» | Шапка |
+|--------|---------|----------------|-------|
+| 375 px | 1 | Под каталогом | Вертикальная |
+| 768 px | 2 | Под каталогом | Горизонтальная |
+| 1280 px | 2 | Справа от каталога | Горизонтальная |
+
+### Форма заявки (часть 6)
+
+Добавлена форма оптовой заявки с HTML5-валидацией.
+
+Проверены следующие случаи:
+
+- Пустые обязательные поля — браузер запрещает отправку.
+- Некорректный email — появляется сообщение об ошибке.
+- Объём заказа менее 10 кг — браузер требует исправить значение.
+- Корректные данные — появляется сообщение об успешной отправке.
+
+### Скриншоты
+
+Мобильная версия (375 на 675 px):
+
+![Мобильная версия](screenshots/mobile.png - mobile3.png)
+
+Десктопная версия (1920 на 1080 px):
+
+![Десктопная версия](screenshots/desktop.png - desktop2.png)

@@ -1,5 +1,10 @@
+
 import { useEffect, useState } from 'react';
+
 import ProductCard from './components/ProductCard';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ContactForm from './components/ContactForm';
 
 function App() {
     const [products, setProducts] = useState([]);
@@ -8,6 +13,7 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Загрузка товаров с json-server
     useEffect(() => {
         async function loadProducts() {
             try {
@@ -34,35 +40,27 @@ function App() {
         loadProducts();
     }, []);
 
+    // Поиск товаров
     const filteredProducts = products.filter((product) =>
         product.name
             .toLowerCase()
             .includes(searchTerm.toLowerCase())
     );
 
+    // Добавление товара в корзину
     function handleAddToCart() {
-        setCartCount(cartCount + 1);
+        setCartCount((prevCount) => prevCount + 1);
     }
 
     return (
         <>
-            <header className="header">
-                <div className="container">
-                    <h1>АгроМаркет</h1>
+            {/* Шапка сайта */}
+            <Header cartCount={cartCount} />
 
-                    <nav>
-                        <a href="#">Главная</a>
-                        <a href="#catalog">Каталог</a>
-                        <a href="#">Контакты</a>
-                    </nav>
+            {/* Основное содержимое */}
+            <main className="page">
 
-                    <div className="cart">
-                        Корзина: {cartCount}
-                    </div>
-                </div>
-            </header>
-
-            <main className="container">
+                {/* Приветственный блок */}
                 <section className="hero">
                     <h2>Свежие фермерские продукты</h2>
 
@@ -71,42 +69,76 @@ function App() {
                     </p>
                 </section>
 
+                {/* Каталог товаров */}
                 <section
-                    className="catalog"
                     id="catalog"
+                    className="catalog"
                 >
-                    <h2>Каталог</h2>
+                    {/* Панель поиска */}
+                    <div className="catalog-toolbar">
+                        <h2>Каталог</h2>
 
-                    <input
-                        type="text"
-                        placeholder="Поиск товара..."
-                        value={searchTerm}
-                        onChange={(e) =>
-                            setSearchTerm(e.target.value)
-                        }
-                    />
+                        <input
+                            type="search"
+                            placeholder="Поиск товара..."
+                            aria-label="Поиск товара"
+                            value={searchTerm}
+                            onChange={(e) =>
+                                setSearchTerm(e.target.value)
+                            }
+                        />
+                    </div>
 
+                    {/* Состояние загрузки */}
                     {loading && <p>Загрузка...</p>}
 
+                    {/* Сообщение об ошибке */}
                     {error && <p>{error}</p>}
 
+                    {/* Сетка карточек */}
                     {!loading && !error && (
-                        <div className="products">
+                        <div className="product-grid">
                             {filteredProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
                                     product={product}
                                     onAdd={handleAddToCart}
+                                    featured={product.id === '1'}
                                 />
                             ))}
                         </div>
                     )}
                 </section>
+
+                {/* Боковая панель доставки */}
+                <aside
+                    id="delivery"
+                    className="sidebar"
+                >
+                    <h3>Доставка</h3>
+
+                    <ul>
+                        <li>
+                            Астана — на следующий день
+                        </li>
+
+                        <li>
+                            Акмолинская область — 2–3 дня
+                        </li>
+
+                        <li>
+                            Бесплатно от 20 000 тг
+                        </li>
+                    </ul>
+                </aside>
+
+                {/* Форма оптовой заявки */}
+                <ContactForm />
+
             </main>
 
-            <footer className="footer">
-                <p>© 2026 АгроМаркет</p>
-            </footer>
+            {/* Подвал сайта */}
+            <Footer />
         </>
     );
 }
