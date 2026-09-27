@@ -1,10 +1,33 @@
+const API_URL = 'http://localhost:3000/api';
+
 function ContactForm() {
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
-        alert('Заявка отправлена! Мы свяжемся с вами.');
+        const form = e.target;
+        const data = Object.fromEntries(new FormData(form));
 
-        e.target.reset();
+        try {
+            const res = await fetch(`${API_URL}/orders`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await res.json();
+
+            if (!res.ok) {
+                alert('Ошибка: ' + result.error);
+                return;
+            }
+
+            alert(`Заявка №${result.id} принята!`);
+            form.reset();
+        } catch (err) {
+            alert('Сервер недоступен. Запущен ли agromarket-server?');
+        }
     }
 
     return (

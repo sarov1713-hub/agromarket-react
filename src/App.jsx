@@ -1,10 +1,11 @@
-
 import { useEffect, useState } from 'react';
 
 import ProductCard from './components/ProductCard';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ContactForm from './components/ContactForm';
+
+const API_URL = 'http://localhost:3000/api';
 
 function App() {
     const [products, setProducts] = useState([]);
@@ -13,13 +14,11 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Загрузка товаров с json-server
+    // Загрузка товаров с Express API
     useEffect(() => {
         async function loadProducts() {
             try {
-                const response = await fetch(
-                    'http://localhost:3001/products'
-                );
+                const response = await fetch(`${API_URL}/products`);
 
                 if (!response.ok) {
                     throw new Error('Ошибка загрузки товаров');
@@ -103,7 +102,7 @@ function App() {
                                     key={product.id}
                                     product={product}
                                     onAdd={handleAddToCart}
-                                    featured={product.id === '1'}
+                                    featured={String(product.id) === '1'}
                                 />
                             ))}
                         </div>
