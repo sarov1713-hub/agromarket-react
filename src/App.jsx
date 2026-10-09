@@ -5,9 +5,38 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ContactForm from './components/ContactForm';
 
-const API_URL = 'http://localhost:3000/api';
+import { apiFetch } from './api.js';
+import LoginForm from './components/LoginForm.jsx';
+import AddProductForm from './components/AddProductForm.jsx';
 
 function App() {
+    const [user, setUser] = useState(() => {
+        if (!localStorage.getItem('token')) return null;
+        try { return JSON.parse(localStorage.getItem('user') || 'null'); }
+        catch { return null; }
+    });
+    useEffect(() => {
+        if (!localStorage.getItem('token')) return;
+        let active = true;
+        apiFetch('/auth/me').then((currentUser) => {
+            if (active) {
+                setUser(currentUser);
+                localStorage.setItem('user', JSON.stringify(currentUser));
+            }
+        }).catch(() => {});
+        return () => { active = false; };
+    }, []);
+
+    function handleLogin(currentUser, token) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(currentUser));
+        setUser(currentUser);
+    }
+    function handleLogout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
+    }
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [cartCount, setCartCount] = useState(0);
@@ -18,13 +47,7 @@ function App() {
     useEffect(() => {
         async function loadProducts() {
             try {
-                const response = await fetch(`${API_URL}/products`);
-
-                if (!response.ok) {
-                    throw new Error('Ошибка загрузки товаров');
-                }
-
-                const data = await response.json();
+                const data = await apiFetch('/products');
 
                 setProducts(data);
                 setLoading(false);
@@ -133,6 +156,17 @@ function App() {
 
                 {/* Форма оптовой заявки */}
                 <ContactForm />
+
+                {user ? (
+                    <section className="contact auth-bar" aria-label="Аккаунт">
+                        <p>Вы вошли как {user.name} ({user.role})</p>
+                        <button type="button" onClick={handleLogout}>Выйти</button>
+                    </section>
+                ) : <LoginForm onLogin={handleLogin} />}
+
+                {user?.role === 'admin' && <AddProductForm
+                    onAdded={(product) => setProducts((current) => [...current, product])}
+                />}
 
             </main>
 

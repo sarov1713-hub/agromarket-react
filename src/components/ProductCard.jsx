@@ -8,10 +8,10 @@ function ProductCard({ product, onAdd, featured = false }) {
                 </span>
             )}
 
-            <img
+            {product.image ? <img
                 src={product.image}
                 alt={product.name}
-            />
+            /> : <div className="product-no-image">Фото пока нет</div>}
 
             <h3>{product.name}</h3>
 

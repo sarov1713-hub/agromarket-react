@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+import { apiFetch } from '../api.js';
 
 function ContactForm() {
     async function handleSubmit(e) {
@@ -8,7 +8,7 @@ function ContactForm() {
         const data = Object.fromEntries(new FormData(form));
 
         try {
-            const res = await fetch(`${API_URL}/orders`, {
+            const result = await apiFetch('/orders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -16,17 +16,10 @@ function ContactForm() {
                 body: JSON.stringify(data),
             });
 
-            const result = await res.json();
-
-            if (!res.ok) {
-                alert('Ошибка: ' + result.error);
-                return;
-            }
-
             alert(`Заявка №${result.id} принята!`);
             form.reset();
         } catch (err) {
-            alert('Сервер недоступен. Запущен ли agromarket-server?');
+            alert('Ошибка: ' + err.message);
         }
     }
 

@@ -9,6 +9,13 @@
     box-sizing: border-box;
 }
 
+.form-error { color: #b71c1c; }
+.contact-form button:disabled { opacity: 0.6; cursor: wait; }
+.contact-form .secondary-button { background: #e8f5e9; color: #1b5e20; }
+.auth-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.auth-bar button { padding: 10px 20px; border: 0; border-radius: 6px; background: #2e7d32; color: white; cursor: pointer; font: inherit; }
+.product-no-image { height: 160px; display: grid; place-items: center; background: #f5f7f2; border-radius: 6px; color: #566452; }
+
 body {
     margin: 0;
     font-family: system-ui, Arial, sans-serif;
