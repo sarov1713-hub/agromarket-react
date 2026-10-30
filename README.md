@@ -58,3 +58,80 @@
 Десктопная версия (1920 на 1080 px):
 
 ![Десктопная версия](screenshots/desktop.png - desktop2.png)
+
+
+## Тестирование
+
+Требуется Node.js 22 или новее. После клонирования: `npm ci`.
+
+- `npm test` — Vitest + Testing Library, один прогон.
+- `npm run test:watch` — интерактивный Vitest.
+- `npm run coverage` — V8 coverage, HTML в [coverage/index.html](coverage/index.html).
+- `npx playwright install chromium` — установка браузера для E2E.
+- `npm run e2e` — Playwright; по умолчанию frontend на localhost:5173, backend должен быть доступен по VITE_API_URL.
+
+Production, PowerShell:
+
+```powershell
+$env:E2E_BASE_URL = 'https://agromarket-react.vercel.app'
+npm run e2e
+Remove-Item Env:E2E_BASE_URL
+```
+
+Playwright создаёт только собственного уникального покупателя и учебную заявку; существующие записи не изменяет и не удаляет. Повторный запуск buyer и CI retry могут создать ещё одного пользователя. Корзина в текущем приложении — счётчик, оптовая заявка не связана с выбранным товаром. Router отсутствует: /login и /admin возвращают ту же SPA; гостю доступна форма входа, форма добавления товара скрыта.
+
+[CI](.github/workflows/ci.yml): npm ci → npm test → lint → build на PR и push main. [E2E workflow](.github/workflows/e2e.yml): вручную и ежедневно в 04:00 UTC (09:00 Asia/Qyzylorda), Chromium, один retry в CI. При ошибке отчёт и trace сохраняются на 7 дней. E2E не запускается на каждом PR: проверяет уже опубликованную версию, зависит от внешних сервисов и создаёт записи в production. Отчёты могут содержать данные тестового аккаунта; не публикуйте их в Git.
+
+## Лабораторная 10 — ответы
+
+Проверено 30.10.2026 на Windows:
+
+| Проверка | Фактический результат |
+| --- | --- |
+| Vitest | 20 тестов, 4 файла, все прошли |
+| Два компонента | ProductCard: 5; LoginForm: 6 |
+| Интеграционные mock-тесты | App: 8; отдельный smoke: 1 |
+| Каталог | loading → data, URL /api/products, HTTP 500, empty, network error, поиск и корзина |
+| Авторизация | JWT в заявке через настоящий apiFetch; 401 очищает token/user и показывает вход; login/logout |
+| Lines, все файлы | 83,8% (88/105) |
+| Худший файл | main.jsx: 0% — тесты рендерят компоненты напрямую, не запускают createRoot |
+| Худший компонент | AddProductForm.jsx: 23,52% — проверяется скрытие после 401, отправка admin-формы не входит в эти сценарии |
+| npm test | Vitest Duration 5,01 с; полное время команды PowerShell 6,27 с |
+| Production E2E | 4 сценария: 3 passed, 1 failed; Playwright Duration 33,1 с |
+| Отношение длительностей раннеров | 33,1 / 5,01 ≈ 6,61; это не сравнение двух зелёных прогонов: E2E включает 15 с ожидания неверного title |
+| lint / build | Прошли |
+
+Найдены и исправлены: отсутствующий empty state; отсутствие понятного сообщения после истечения сессии (перезагрузка заменена событием auth:expired и очисткой UI аккаунта); шаблонный title и неверный lang=en. Label у существующих форм уже связаны с input, дополнительных исправлений не потребовалось. При написании тестов исправлен ошибочный возврат mock-функции из beforeEach: Vitest воспринимал её как cleanup и вызывал после теста.
+
+Production на момент прогона всё ещё возвращает title «agromarket-react». Каталог и карточка загрузились, но assertion /АгроМаркет/ закономерно упал. Исправление [index.html](index.html) необходимо слить и опубликовать через Vercel, затем повторить полный production E2E. Зелёный итог production пока **не получен**. Успешны /login rewrite (HTTP 200), регистрация покупателя с добавлением товара и принятой заявкой, гостевой /admin. За этот прогон создан один собственный E2E-пользователь и одна заявка; общее число пользователей в Neon неизвестно.
+
+### Эксперимент с trace
+
+Временно заменили имя region «Вход» на «Несуществующая форма входа» в сценарии /login. Реальный production-прогон ожидаемо упал через 16,3 с с сообщением element(s) not found; exit code 1. Исходный selector восстановлен в finally, сломанная версия не закоммичена.
+
+Проверено содержимое ZIP trace: переход goto('/login'), ожидаемый неправильный selector и ошибка ожидания, 4 frame-snapshot, 2 кадра screencast, сетевые события и ресурсы страницы. DOM содержит настоящую форму «Вход». Это позволяет отличить ошибочный selector от отсутствия страницы. Trace исследован по содержимому архива, интерактивный viewer не использовался.
+
+Локальный артефакт: [trace эксперимента](test-results/selector-experiment/buyer-прямая-ссылка-login-возвращает-SPA/trace.zip). Просмотр:
+
+```powershell
+npx playwright show-trace 'test-results/selector-experiment/buyer-прямая-ссылка-login-возвращает-SPA/trace.zip'
+```
+
+### Требуется ручное завершение
+
+1. Создать PR test/react-components → main, проверить CI build, review/merge и дождаться Vercel deploy. Полный production E2E после deploy должен стать зелёным; записать новое время и отношение к компонентным тестам.
+2. GitHub → Settings → Secrets and variables → Actions → Variables → New repository variable: PRODUCTION_URL = https://agromarket-react.vercel.app. Настройка не подтверждена агентом.
+3. Settings → Rules → Rulesets (либо Branches → Branch protection): для main требовать PR и успешный status check build. Сначала запустить PR CI, чтобы check появился в списке. Фактическое включение защиты требует ручной проверки.
+4. После merge: Actions → E2E (production) → Run workflow → main. Ежедневное расписание начнёт работать после появления workflow в default branch. Успех GitHub Actions пока не подтверждён.
+5. Проверка запрета merge: от актуального main создать отдельную ветку experiment/failing-component; временно изменить текст кнопки «В корзину» в ProductCard, commit/push, открыть PR. Убедиться, что тест карточки падает и GitHub блокирует merge из-за required build. Сохранить результат и закрыть PR **без merge**. Вернуться на рабочую ветку. Этот внешний эксперимент не выполнялся; blocked merge не заявляется.
+6. Neon SQL Editor (только чтение):
+
+```sql
+SELECT email, created_at
+FROM users
+WHERE email LIKE 'e2e+%';
+```
+
+Число строк — общее количество E2E-пользователей: **Требуется ручная проверка**. Автоматического подключения к production DB не было. Накопление тестовых пользователей и заявок засоряет production и статистику, расходует ресурсы; предпочтительна отдельная staging-среда. Очистку production эта работа не выполняет.
+
+ИИ использовался для анализа кода, реализации тестов, настройки CI и отладки. Внешние результаты, review, настройки GitHub и количество записей в Neon не выдумывались.
