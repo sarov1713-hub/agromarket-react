@@ -11,7 +11,8 @@ export async function apiFetch(path, options = {}) {
     if (res.status === 401 && token) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.reload();
+        window.dispatchEvent(new Event('auth:expired'));
+        throw new Error('Сессия истекла. Войдите заново.');
     }
     const data = res.status === 204 ? null : await res.json();
     if (!res.ok) throw new Error(data?.error || `Ошибка ${res.status}`);
