@@ -10,11 +10,20 @@ import LoginForm from './components/LoginForm.jsx';
 import AddProductForm from './components/AddProductForm.jsx';
 
 function App() {
+    const [authMessage, setAuthMessage] = useState('');
     const [user, setUser] = useState(() => {
         if (!localStorage.getItem('token')) return null;
         try { return JSON.parse(localStorage.getItem('user') || 'null'); }
         catch { return null; }
     });
+    useEffect(() => {
+        function onExpired() {
+            setUser(null);
+            setAuthMessage('Сессия истекла. Войдите заново.');
+        }
+        window.addEventListener('auth:expired', onExpired);
+        return () => window.removeEventListener('auth:expired', onExpired);
+    }, []);
     useEffect(() => {
         if (!localStorage.getItem('token')) return;
         let active = true;
@@ -28,6 +37,7 @@ function App() {
     }, []);
 
     function handleLogin(currentUser, token) {
+        setAuthMessage('');
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(currentUser));
         setUser(currentUser);
@@ -120,6 +130,7 @@ function App() {
                     {/* Сетка карточек */}
                     {!loading && !error && (
                         <div className="product-grid">
+                            {filteredProducts.length === 0 && <p>Товаров нет</p>}
                             {filteredProducts.map((product) => (
                                 <ProductCard
                                     key={product.id}
@@ -157,6 +168,7 @@ function App() {
                 {/* Форма оптовой заявки */}
                 <ContactForm />
 
+                {authMessage && <p role="alert">{authMessage}</p>}
                 {user ? (
                     <section className="contact auth-bar" aria-label="Аккаунт">
                         <p>Вы вошли как {user.name} ({user.role})</p>
