@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { apiFetch } from '../api.js';
+import FormError from './FormError.jsx';
 
 export default function AddProductForm({ onAdded }) {
     const [error, setError] = useState('');
@@ -20,7 +21,7 @@ export default function AddProductForm({ onAdded }) {
             form.reset();
             setMessage('Товар добавлен в каталог');
         } catch (err) {
-            setError(err.message);
+            setError(err);
         } finally {
             setLoading(false);
         }
@@ -30,14 +31,14 @@ export default function AddProductForm({ onAdded }) {
             <h2 id="add-product-title">Добавить товар</h2>
             <form className="contact-form" onSubmit={handleSubmit}>
                 <label htmlFor="product-name">Название</label>
-                <input id="product-name" name="name" required />
+                <input id="product-name" name="name" minLength={2} maxLength={200} required />
                 <label htmlFor="product-category">Категория</label>
-                <input id="product-category" name="category" />
+                <input id="product-category" name="category" maxLength={50} required />
                 <label htmlFor="product-price">Цена (тг)</label>
-                <input id="product-price" name="price" type="number" min="0" step="1" required />
+                <input id="product-price" name="price" type="number" min="1" max="10000000" step="1" required />
                 <label htmlFor="product-unit">Единица измерения</label>
-                <input id="product-unit" name="unit" defaultValue="кг" required />
-                {error && <p className="form-error" role="alert">{error}</p>}
+                <input id="product-unit" name="unit" defaultValue="кг" maxLength={20} required />
+                <FormError error={error} />
                 {message && <p role="status">{message}</p>}
                 <button type="submit" disabled={loading}>{loading ? 'Сохранение…' : 'Добавить товар'}</button>
             </form>

@@ -15,6 +15,11 @@ export async function apiFetch(path, options = {}) {
         throw new Error('Сессия истекла. Войдите заново.');
     }
     const data = res.status === 204 ? null : await res.json();
-    if (!res.ok) throw new Error(data?.error || `Ошибка ${res.status}`);
+    if (!res.ok) {
+        const error = new Error(data?.error || `Ошибка ${res.status}`);
+        error.status = res.status;
+        error.details = Array.isArray(data?.details) ? data.details : [];
+        throw error;
+    }
     return data;
 }
