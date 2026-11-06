@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { apiFetch } from '../api.js';
+import FormError from './FormError.jsx';
 
 export default function LoginForm({ onLogin }) {
     const [mode, setMode] = useState('login');
@@ -15,7 +16,7 @@ export default function LoginForm({ onLogin }) {
             const result = await apiFetch(`/auth/${mode}`, { method: 'POST', body: JSON.stringify(data) });
             onLogin(result.user, result.token);
         } catch (err) {
-            setError(err.message);
+            setError(err);
         } finally {
             setLoading(false);
         }
@@ -27,14 +28,14 @@ export default function LoginForm({ onLogin }) {
             <form key={mode} className="contact-form" onSubmit={handleSubmit}>
                 {mode === 'register' && <>
                     <label htmlFor="auth-name">Имя</label>
-                    <input id="auth-name" name="name" autoComplete="name" required />
+                    <input id="auth-name" name="name" autoComplete="name" minLength={2} maxLength={100} required />
                 </>}
                 <label htmlFor="auth-email">Email</label>
                 <input id="auth-email" name="email" type="email" autoComplete="username" required />
                 <label htmlFor="auth-password">Пароль</label>
-                <input id="auth-password" name="password" type="password" minLength={8}
+                <input id="auth-password" name="password" type="password" minLength={mode === 'register' ? 8 : 1} maxLength={72}
                     autoComplete={mode === 'login' ? 'current-password' : 'new-password'} required />
-                {error && <p className="form-error" role="alert">{error}</p>}
+                <FormError error={error} />
                 <button type="submit" disabled={loading}>
                     {loading ? 'Подождите…' : mode === 'login' ? 'Войти' : 'Зарегистрироваться'}
                 </button>
