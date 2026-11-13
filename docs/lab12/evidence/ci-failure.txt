@@ -1,0 +1,128 @@
+build	Run npm run test:run	﻿2026-11-13T04:39:20.7629425Z ##[group]Run npm run test:run
+build	Run npm run test:run	2026-11-13T04:39:20.7629946Z ^[[36;1mnpm run test:run^[[0m
+build	Run npm run test:run	2026-11-13T04:39:20.7694850Z shell: /usr/bin/bash -e {0}
+build	Run npm run test:run	2026-11-13T04:39:20.7695179Z ##[endgroup]
+build	Run npm run test:run	2026-11-13T04:39:20.8704690Z
+build	Run npm run test:run	2026-11-13T04:39:20.8705776Z > agromarket-react@0.0.0 test:run
+build	Run npm run test:run	2026-11-13T04:39:20.8706318Z > vitest run
+build	Run npm run test:run	2026-11-13T04:39:20.8706464Z
+build	Run npm run test:run	2026-11-13T04:39:21.2387092Z
+build	Run npm run test:run	2026-11-13T04:39:21.2391466Z ^[[1m^[[30m^[[46m RUN ^[[49m^[[39m^[[22m ^[[36mv5.0.5 ^[[39m^[[90m/home/runner/work/agromarket-react/agromarket-react^[[39m
+build	Run npm run test:run	2026-11-13T04:39:21.2392321Z
+build	Run npm run test:run	2026-11-13T04:39:24.5127499Z  ^[[32m✓^[[39m src/components/LoginForm.test.jsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 1309^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:24.5129005Z    ^[[33m^[[2m✓^[[22m^[[39m пользователь вводит email и пароль^[[33m 434^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:25.0150300Z  ^[[32m✓^[[39m src/App.test.jsx ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 1651^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:25.0172493Z    ^[[33m^[[2m✓^[[22m^[[39m каталог показывает загрузку, затем данные и правильный URL^[[33m 483^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:25.0232509Z  ^[[32m✓^[[39m src/components/NetworkForms.test.jsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 1723^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:25.0234380Z    ^[[33m^[[2m✓^[[22m^[[39m MSW: HTTP 401 не авторизует и не сохраняет токен^[[33m 542^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:25.0263402Z    ^[[33m^[[2m✓^[[22m^[[39m MSW: задержка входа блокирует кнопку и повторную отправку^[[33m 352^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.5716592Z  ^[[32m✓^[[39m src/test/smoke.test.jsx ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 184^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.7855560Z  ^[[32m✓^[[39m src/components/ServerErrors.test.jsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[33m 800^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.7857848Z    ^[[33m^[[2m✓^[[22m^[[39m 429 отображает сообщение сервера при входе^[[33m 500^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8256323Z  ^[[31m❯^[[39m src/components/ProductCard.test.jsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m | ^[[22m^[[31m1 failed^[[39m^[[2m)^[[22m^[[32m 289^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8257936Z    ^[[32m✓^[[39m карточка показывает название^[[32m 178^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8259077Z ^[[31m   ^[[31m×^[[31m карточка показывает цену^[[39m^[[32m 14^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8260100Z    ^[[32m✓^[[39m товар недели и доступное изображение^[[32m 14^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8261532Z    ^[[32m✓^[[39m без фотографии отображается заглушка^[[32m 4^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8262593Z    ^[[32m✓^[[39m кнопка передаёт выбранный товар^[[32m 37^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8263632Z    ^[[32m✓^[[39m карточка показывает категорию из API^[[32m 3^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8264878Z    ^[[32m✓^[[39m покупатель может добавить товар с клавиатуры^[[32m 21^[[2mms^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8300257Z
+build	Run npm run test:run	2026-11-13T04:39:26.8300793Z ^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m^[[1m^[[41m Failed Tests 1 ^[[49m^[[22m^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8301293Z
+build	Run npm run test:run	2026-11-13T04:39:26.8305751Z ^[[41m^[[1m FAIL ^[[22m^[[49m src/components/ProductCard.test.jsx^[[2m > ^[[22mкарточка показывает цену
+build	Run npm run test:run	2026-11-13T04:39:26.8314608Z ^[[31m^[[1mTestingLibraryElementError^[[22m: Unable to find an element with the text: 451 тг. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+build	Run npm run test:run	2026-11-13T04:39:26.8315736Z
+build	Run npm run test:run	2026-11-13T04:39:26.8316196Z Ignored nodes: comments, script, style
+build	Run npm run test:run	2026-11-13T04:39:26.8316759Z ^[[36m<body>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8317283Z   ^[[36m<div>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8317875Z     ^[[36m<article^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8318536Z       ^[[33mclass^[[31m=^[[32m"card"^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8319256Z       ^[[33mdata-testid^[[31m=^[[32m"product-card"^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8319801Z     ^[[36m>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8320392Z       ^[[36m<img^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8321021Z         ^[[33malt^[[31m=^[[32m"Яблоки"^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8321858Z         ^[[33msrc^[[31m=^[[32m"/apple.jpg"^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8322424Z       ^[[36m/>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8322949Z       ^[[36m<h3>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8323491Z         ^[[0mЯблоки^[[0m
+build	Run npm run test:run	2026-11-13T04:39:26.8324318Z       ^[[36m</h3>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8324864Z       ^[[36m<p>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8325414Z         ^[[0mФрукты^[[0m
+build	Run npm run test:run	2026-11-13T04:39:26.8325932Z       ^[[36m</p>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8326439Z       ^[[36m<p^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8327053Z         ^[[33mclass^[[31m=^[[32m"price"^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8327614Z       ^[[36m>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8328129Z         ^[[0m450^[[0m
+build	Run npm run test:run	2026-11-13T04:39:26.8328696Z         ^[[0m тг^[[0m
+build	Run npm run test:run	2026-11-13T04:39:26.8329322Z       ^[[36m</p>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8329902Z       ^[[36m<button>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8330447Z         ^[[0mВ корзину^[[0m
+build	Run npm run test:run	2026-11-13T04:39:26.8330982Z       ^[[36m</button>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8331689Z     ^[[36m</article>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8332218Z   ^[[36m</div>^[[31m
+build	Run npm run test:run	2026-11-13T04:39:26.8332765Z ^[[36m</body>^[[31m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8333822Z ^[[90m ^[[2m❯^[[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:^[[2m37:19^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8334963Z ^[[90m ^[[2m❯^[[22m node_modules/@testing-library/dom/dist/query-helpers.js:^[[2m76:38^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8336340Z ^[[90m ^[[2m❯^[[22m node_modules/@testing-library/dom/dist/query-helpers.js:^[[2m52:17^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8337406Z ^[[90m ^[[2m❯^[[22m node_modules/@testing-library/dom/dist/query-helpers.js:^[[2m95:19^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8338268Z ^[[36m ^[[2m❯^[[22m src/components/ProductCard.test.jsx:^[[2m12:17^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8354796Z     ^[[90m 10|^[[39m test('карточка показывает цену', () => {
+build	Run npm run test:run	2026-11-13T04:39:26.8355674Z     ^[[90m 11|^[[39m   render(<ProductCard product={product} />);
+build	Run npm run test:run	2026-11-13T04:39:26.8356235Z     ^[[90m 12|^[[39m   expect(screen.getByText('451 тг')).toBeInTheDocument();
+build	Run npm run test:run	2026-11-13T04:39:26.8356694Z     ^[[90m   |^[[39m                 ^[[31m^^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8356997Z     ^[[90m 13|^[[39m });
+build	Run npm run test:run	2026-11-13T04:39:26.8357381Z     ^[[90m 14|^[[39m test('товар недели и доступное изображение', () => {
+build	Run npm run test:run	2026-11-13T04:39:26.8357770Z
+build	Run npm run test:run	2026-11-13T04:39:26.8358273Z ^[[31m^[[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯^[[22m^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8359537Z
+build	Run npm run test:run	2026-11-13T04:39:26.8359559Z
+build	Run npm run test:run	2026-11-13T04:39:26.8365038Z ^[[2m Test Files ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m5 passed^[[39m^[[22m^[[90m (6)^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8366166Z ^[[2m      Tests ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m36 passed^[[39m^[[22m^[[90m (37)^[[39m
+build	Run npm run test:run	2026-11-13T04:39:26.8366907Z ^[[2m   Start at ^[[22m 04:39:21
+build	Run npm run test:run	2026-11-13T04:39:26.8371410Z ^[[2m   Duration ^[[22m 5.58s^[[2m (tests 38%, environment 38%, setup 16%, transform 4%, import 3%)^[[22m
+build	Run npm run test:run	2026-11-13T04:39:26.8377702Z
+build	Run npm run test:run	2026-11-13T04:39:26.8378453Z ^[[2mEnvironment ^[[22m ^[[33mjsdom was created 6 times^[[39m^[[2m · 5.92s total, 38% of tracked time^[[22m
+build	Run npm run test:run	2026-11-13T04:39:26.8380012Z ^[[2m            ^[[22m ^[[2mcreate it once per worker with ^[[22m^[[33mpool: 'vmThreads'^[[39m^[[2m (keeps per-file isolation) or ^[[22m^[[33misolate: false^[[39m^[[2m (shares it across files)^[[22m
+build	Run npm run test:run	2026-11-13T04:39:26.8381565Z ^[[2m            ^[[22m ^[[2mlearn more: https://vitest.dev/guide/improving-performance#test-environments^[[22m
+build	Run npm run test:run	2026-11-13T04:39:26.8382105Z
+build	Run npm run test:run	2026-11-13T04:39:26.8395198Z
+build	Run npm run test:run	2026-11-13T04:39:26.8420491Z ##[error]TestingLibraryElementError: Unable to find an element with the text: 451 тг. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+build	Run npm run test:run
+build	Run npm run test:run	Ignored nodes: comments, script, style
+build	Run npm run test:run	<body>
+build	Run npm run test:run	  <div>
+build	Run npm run test:run	    <article
+build	Run npm run test:run	      class="card"
+build	Run npm run test:run	      data-testid="product-card"
+build	Run npm run test:run	    >
+build	Run npm run test:run	      <img
+build	Run npm run test:run	        alt="Яблоки"
+build	Run npm run test:run	        src="/apple.jpg"
+build	Run npm run test:run	      />
+build	Run npm run test:run	      <h3>
+build	Run npm run test:run	        Яблоки
+build	Run npm run test:run	      </h3>
+build	Run npm run test:run	      <p>
+build	Run npm run test:run	        Фрукты
+build	Run npm run test:run	      </p>
+build	Run npm run test:run	      <p
+build	Run npm run test:run	        class="price"
+build	Run npm run test:run	      >
+build	Run npm run test:run	        450
+build	Run npm run test:run	         тг
+build	Run npm run test:run	      </p>
+build	Run npm run test:run	      <button>
+build	Run npm run test:run	        В корзину
+build	Run npm run test:run	      </button>
+build	Run npm run test:run	    </article>
+build	Run npm run test:run	  </div>
+build	Run npm run test:run	</body>
+build	Run npm run test:run	 ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+build	Run npm run test:run	 ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+build	Run npm run test:run	 ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+build	Run npm run test:run	 ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+build	Run npm run test:run	 ❯ src/components/ProductCard.test.jsx:12:17
+build	Run npm run test:run
+build	Run npm run test:run
+build	Run npm run test:run	2026-11-13T04:39:26.8673403Z ##[error]Process completed with exit code 1.
