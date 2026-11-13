@@ -14,6 +14,23 @@ test('пользователь вводит email и пароль', async () => 
   await fill();
   expect(screen.getByLabelText('Email')).toHaveValue('buyer@example.test');
   expect(screen.getByLabelText('Пароль')).toHaveValue('Password-123');
+  expect(screen.getByLabelText('Пароль')).toHaveAttribute('type', 'password');
+});
+
+test('пока вход выполняется, повторное нажатие не дублирует запрос', async () => {
+  let resolve;
+  apiFetch.mockImplementation(() => new Promise(r => { resolve = r; }));
+  const onLogin = vi.fn();
+  render(<LoginForm onLogin={onLogin} />);
+  await fill();
+  await userEvent.click(screen.getByRole('button', { name: 'Войти' }));
+  const button = screen.getByRole('button', { name: 'Подождите…' });
+  expect(button).toBeDisabled();
+  await userEvent.click(button);
+  expect(apiFetch).toHaveBeenCalledTimes(1);
+  resolve({ user: { id: 7 }, token: 'isolated-test-token' });
+  expect(await screen.findByRole('button', { name: 'Войти' })).toBeEnabled();
+  expect(onLogin).toHaveBeenCalledTimes(1);
 });
 test('вход отправляет данные и вызывает onLogin', async () => {
   const user = { id: 7, name: 'Покупатель', role: 'user' };

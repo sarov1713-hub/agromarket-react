@@ -28,3 +28,6 @@ agromarket/
 coverage/
 test-results/
 playwright-report/
+playwright/.cache/
+.env.e2e
+.lab12-local/
