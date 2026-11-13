@@ -1,90 +1,133 @@
-import { act, render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen, within } from '@testing-library/react';
+import { delay, http, HttpResponse } from 'msw';
 import App from './App.jsx';
+import { server } from './test/server.js';
+import { buyer, endpoint, product, token } from './test/handlers.js';
+import { fillLogin, loginRegion, renderUser } from './test/utils.jsx';
 
-const product = { id: 1, name: 'Яблоки', price: 450, category: 'Фрукты' };
-const reply = (data, status = 200) => new Response(JSON.stringify(data), { status });
 test('каталог показывает загрузку, затем данные и правильный URL', async () => {
-  let resolve;
-  const fetchMock = vi.spyOn(globalThis, 'fetch').mockReturnValue(new Promise((r) => { resolve = r; }));
-  render(<App />);
+  let requested;
+  server.use(http.get(endpoint('/products'), async ({ request }) => {
+    requested = request.url;
+    await delay(100);
+    return HttpResponse.json([product]);
+  }));
+  renderUser(<App />);
   expect(screen.getByText('Загрузка...')).toBeInTheDocument();
-  await act(async () => { resolve(reply([product])); });
   expect(await screen.findByRole('heading', { name: 'Яблоки' })).toBeInTheDocument();
   expect(screen.queryByText('Загрузка...')).not.toBeInTheDocument();
-  expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('/api/products'), expect.any(Object));
+  expect(requested).toBe(endpoint('/products'));
 });
+
 test('каталог сообщает об HTTP 500', async () => {
   vi.spyOn(console, 'error').mockImplementation(() => {});
-  vi.spyOn(globalThis, 'fetch').mockResolvedValue(reply({ error: 'Ошибка сервера' }, 500));
-  render(<App />);
+  server.use(http.get(endpoint('/products'), () => HttpResponse.json({ error: 'Ошибка сервера' }, { status: 500 })));
+  renderUser(<App />);
   expect(await screen.findByText('Не удалось загрузить товары')).toBeInTheDocument();
   expect(screen.queryByText('Товаров нет')).not.toBeInTheDocument();
 });
+
 test('каталог сообщает о пустом массиве', async () => {
-  vi.spyOn(globalThis, 'fetch').mockResolvedValue(reply([]));
-  render(<App />);
+  server.use(http.get(endpoint('/products'), () => HttpResponse.json([])));
+  renderUser(<App />);
   expect(await screen.findByText('Товаров нет')).toBeInTheDocument();
 });
+
 test('каталог сообщает об ошибке сети', async () => {
   vi.spyOn(console, 'error').mockImplementation(() => {});
-  vi.spyOn(globalThis, 'fetch').mockRejectedValue(new TypeError('Failed to fetch'));
-  render(<App />);
+  server.use(http.get(endpoint('/products'), () => HttpResponse.error()));
+  renderUser(<App />);
   expect(await screen.findByText('Не удалось загрузить товары')).toBeInTheDocument();
 });
+
+test('каталог восстанавливается после повторного запроса', async () => {
+  vi.spyOn(console, 'error').mockImplementation(() => {});
+  server.use(http.get(endpoint('/products'), () => HttpResponse.json({ error: 'Сбой' }, { status: 500 }), { once: true }));
+  const { user } = renderUser(<App />);
+  await user.click(await screen.findByRole('button', { name: 'Повторить загрузку' }));
+  expect(await screen.findByRole('heading', { name: product.name })).toBeInTheDocument();
+  expect(screen.queryByText('Не удалось загрузить товары')).not.toBeInTheDocument();
+});
+
 test('покупатель добавляет товар и фильтрует каталог', async () => {
-  vi.spyOn(globalThis, 'fetch').mockResolvedValue(reply([product]));
-  render(<App />);
-  await userEvent.click(await screen.findByRole('button', { name: 'В корзину' }));
+  const { user } = renderUser(<App />);
+  await user.click(await screen.findByRole('button', { name: 'В корзину' }));
   expect(screen.getByText(/Корзина: 1/)).toBeInTheDocument();
-  await userEvent.type(screen.getByRole('searchbox', { name: 'Поиск товара' }), 'груша');
+  await user.type(screen.getByRole('searchbox', { name: 'Поиск товара' }), 'груша');
   expect(screen.getByText('Товаров нет')).toBeInTheDocument();
   expect(screen.queryByRole('heading', { name: 'Яблоки' })).not.toBeInTheDocument();
 });
+
 test('заявка отправляет JWT и данные пользователя', async () => {
-  localStorage.setItem('token', 'test-token');
-  const fetchMock = vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) => {
-    if (url.endsWith('/auth/me')) return reply({ id: 5, name: 'Анна', role: 'user' });
-    if (url.endsWith('/orders')) return reply({ id: 42 }, 201);
-    return reply([product]);
-  });
+  localStorage.setItem('token', token);
+  let received;
+  server.use(http.post(endpoint('/orders'), async ({ request }) => {
+    received = { authorization: request.headers.get('authorization'), method: request.method, body: await request.json() };
+    return HttpResponse.json({ id: 42 }, { status: 201 });
+  }));
   const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
-  render(<App />);
+  const { user } = renderUser(<App />);
   await screen.findByText(/Вы вошли как Анна/);
-  await userEvent.type(screen.getByLabelText('Имя / организация'), 'Анна');
-  await userEvent.type(screen.getByLabelText('Email'), 'anna@example.test');
-  await userEvent.type(screen.getByLabelText('Телефон'), '+77001234567');
-  await userEvent.type(screen.getByLabelText('Объём заказа (кг)'), '10');
-  await userEvent.click(screen.getByRole('button', { name: 'Отправить заявку' }));
-  const [, options] = fetchMock.mock.calls.find(([url]) => url.endsWith('/orders'));
-  expect(new Headers(options.headers).get('Authorization')).toBe('Bearer test-token');
-  expect(options.method).toBe('POST');
-  expect(JSON.parse(options.body)).toMatchObject({ name: 'Анна', email: 'anna@example.test', quantity: '10' });
+  await user.type(screen.getByLabelText('Имя / организация'), 'Анна');
+  await user.type(screen.getByLabelText('Email'), 'anna@example.test');
+  await user.type(screen.getByLabelText('Телефон'), '+77001234567');
+  await user.type(screen.getByLabelText('Объём заказа (кг)'), '10');
+  await user.click(screen.getByRole('button', { name: 'Отправить заявку' }));
+  expect(received).toMatchObject({ authorization: 'Bearer ' + token, method: 'POST', body: { name: 'Анна', email: 'anna@example.test', quantity: '10' } });
   expect(alertMock).toHaveBeenCalledWith('Заявка №42 принята!');
 });
+
 test('401 сбрасывает аккаунт и предлагает войти заново', async () => {
-  localStorage.setItem('token', 'test-token');
-  localStorage.setItem('user', JSON.stringify({ id: 1, name: 'Админ', role: 'admin' }));
-  vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) =>
-    url.endsWith('/auth/me') ? reply({ error: 'Неверный токен' }, 401) : reply([product]));
-  render(<App />);
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify({ ...buyer, role: 'admin' }));
+  server.use(http.get(endpoint('/auth/me'), () => HttpResponse.json({ error: 'Неверный токен' }, { status: 401 })));
+  renderUser(<App />);
   expect(await screen.findByRole('alert')).toHaveTextContent('Войдите заново');
   expect(screen.getByRole('heading', { name: 'Вход' })).toBeInTheDocument();
   expect(screen.queryByRole('heading', { name: 'Добавить товар' })).not.toBeInTheDocument();
   expect(localStorage.getItem('token')).toBeNull();
   expect(localStorage.getItem('user')).toBeNull();
 });
+
 test('вход сохраняет аккаунт, выход удаляет его', async () => {
-  vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) => url.endsWith('/auth/login')
-    ? reply({ user: { id: 5, name: 'Анна', role: 'user' }, token: 'new-token' }) : reply([]));
-  render(<App />);
-  const form = within(screen.getByRole('region', { name: 'Вход' }));
-  await userEvent.type(form.getByLabelText('Email'), 'anna@example.test');
-  await userEvent.type(form.getByLabelText('Пароль'), 'Password-123');
-  await userEvent.click(form.getByRole('button', { name: 'Войти' }));
+  const { user } = renderUser(<App />);
+  const form = loginRegion();
+  await fillLogin(user, form);
+  await user.click(form.getByRole('button', { name: 'Войти' }));
   expect(await screen.findByText(/Вы вошли как Анна/)).toBeInTheDocument();
-  expect(localStorage.getItem('token')).toBe('new-token');
-  await userEvent.click(screen.getByRole('button', { name: 'Выйти' }));
+  expect(localStorage.getItem('token')).toBe(token);
+  expect(JSON.parse(localStorage.getItem('user'))).toEqual(buyer);
+  await user.click(screen.getByRole('button', { name: 'Выйти' }));
   expect(localStorage.getItem('token')).toBeNull();
+  expect(localStorage.getItem('user')).toBeNull();
   expect(screen.getByRole('heading', { name: 'Вход' })).toBeInTheDocument();
+});
+
+test.each(['user', 'admin'])('форма добавления доступна согласно роли %s', async role => {
+  localStorage.setItem('token', token);
+  server.use(http.get(endpoint('/auth/me'), () => HttpResponse.json({ ...buyer, role })));
+  renderUser(<App />);
+  await screen.findByRole('region', { name: 'Аккаунт' });
+  const form = screen.queryByRole('heading', { name: 'Добавить товар' });
+  if (role === 'admin') expect(form).toBeInTheDocument();
+  else expect(form).not.toBeInTheDocument();
+});
+
+test('регистрация сохраняет пользователя, но не назначает admin', async () => {
+  let payload;
+  server.use(http.post(endpoint('/auth/register'), async ({ request }) => {
+    payload = await request.json();
+    return HttpResponse.json({ user: buyer, token }, { status: 201 });
+  }));
+  const { user } = renderUser(<App />);
+  const form = loginRegion();
+  await user.click(form.getByRole('button', { name: 'Создать аккаунт' }));
+  const register = within(screen.getByRole('region', { name: 'Регистрация' }));
+  await user.type(register.getByLabelText('Имя'), 'Анна');
+  await fillLogin(user, register);
+  expect(register.queryByLabelText(/Роль/)).not.toBeInTheDocument();
+  await user.click(register.getByRole('button', { name: 'Зарегистрироваться' }));
+  expect(await screen.findByRole('region', { name: 'Аккаунт' })).toHaveTextContent('Анна (user)');
+  expect(payload).toEqual({ name: 'Анна', email: 'anna@example.test', password: 'Password-123' });
+  expect(localStorage.getItem('token')).toBe(token);
 });

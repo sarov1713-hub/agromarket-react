@@ -46,6 +46,7 @@ function App() {
     const [cartCount, setCartCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [reload, setReload] = useState(0);
 
     useEffect(() => {
         function onExpired() {
@@ -104,6 +105,8 @@ function App() {
     // Загрузка товаров с Express API
     useEffect(() => {
         async function loadProducts() {
+            setLoading(true);
+            setError(null);
             try {
                 const data = await apiFetch('/products');
 
@@ -121,7 +124,7 @@ function App() {
         }
 
         loadProducts();
-    }, []);
+    }, [reload]);
 
     // Поиск товаров
     const filteredProducts = products.filter((product) =>
@@ -176,10 +179,12 @@ function App() {
                     </div>
 
                     {/* Состояние загрузки */}
-                    {loading && <p>Загрузка...</p>}
+                    {loading && <p role="status">Загрузка...</p>}
 
                     {/* Сообщение об ошибке */}
-                    {error && <p>{error}</p>}
+                    {error && <div role="alert"><p>{error}</p>
+                        <button onClick={() => setReload(value => value + 1)}>Повторить загрузку</button>
+                    </div>}
 
                     {/* Сетка карточек */}
                     {!loading && !error && (
