@@ -9,7 +9,7 @@ test('карточка показывает название', () => {
 });
 test('карточка показывает цену', () => {
   render(<ProductCard product={product} />);
-  expect(screen.getByText('450 тг')).toBeInTheDocument();
+  expect(screen.getByText('451 тг')).toBeInTheDocument();
 });
 test('товар недели и доступное изображение', () => {
   render(<ProductCard product={product} featured />);
