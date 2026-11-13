@@ -94,7 +94,7 @@ PR #11 закрыт 13.11.2026 04:39:35 UTC, mergedAt=null. [Снимок зак
 
 - Репозиторий: https://github.com/sarov1713-hub/agromarket-react
 - PR тестов: https://github.com/sarov1713-hub/agromarket-react/pull/10
-- PR документации: ветка docs/lab12, ссылка добавляется после создания PR.
+- PR документации: https://github.com/sarov1713-hub/agromarket-react/pull/12 — ветка docs/lab12.
 - Закрытый эксперимент: https://github.com/sarov1713-hub/agromarket-react/pull/11
 - Успешный CI: https://github.com/sarov1713-hub/agromarket-react/actions/runs/43366874756
 - Красный CI: https://github.com/sarov1713-hub/agromarket-react/actions/runs/43366900760

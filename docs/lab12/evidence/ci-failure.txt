@@ -2,13 +2,13 @@ build	Run npm run test:run	﻿2026-11-13T04:39:20.7629425Z ##[group]Run npm run 
 build	Run npm run test:run	2026-11-13T04:39:20.7629946Z ^[[36;1mnpm run test:run^[[0m
 build	Run npm run test:run	2026-11-13T04:39:20.7694850Z shell: /usr/bin/bash -e {0}
 build	Run npm run test:run	2026-11-13T04:39:20.7695179Z ##[endgroup]
-build	Run npm run test:run	2026-11-13T04:39:20.8704690Z 
+build	Run npm run test:run	2026-11-13T04:39:20.8704690Z
 build	Run npm run test:run	2026-11-13T04:39:20.8705776Z > agromarket-react@0.0.0 test:run
 build	Run npm run test:run	2026-11-13T04:39:20.8706318Z > vitest run
-build	Run npm run test:run	2026-11-13T04:39:20.8706464Z 
-build	Run npm run test:run	2026-11-13T04:39:21.2387092Z 
+build	Run npm run test:run	2026-11-13T04:39:20.8706464Z
+build	Run npm run test:run	2026-11-13T04:39:21.2387092Z
 build	Run npm run test:run	2026-11-13T04:39:21.2391466Z ^[[1m^[[30m^[[46m RUN ^[[49m^[[39m^[[22m ^[[36mv5.0.5 ^[[39m^[[90m/home/runner/work/agromarket-react/agromarket-react^[[39m
-build	Run npm run test:run	2026-11-13T04:39:21.2392321Z 
+build	Run npm run test:run	2026-11-13T04:39:21.2392321Z
 build	Run npm run test:run	2026-11-13T04:39:24.5127499Z  ^[[32m✓^[[39m src/components/LoginForm.test.jsx ^[[2m(^[[22m^[[2m7 tests^[[22m^[[2m)^[[22m^[[33m 1309^[[2mms^[[22m^[[39m
 build	Run npm run test:run	2026-11-13T04:39:24.5129005Z    ^[[33m^[[2m✓^[[22m^[[39m пользователь вводит email и пароль^[[33m 434^[[2mms^[[22m^[[39m
 build	Run npm run test:run	2026-11-13T04:39:25.0150300Z  ^[[32m✓^[[39m src/App.test.jsx ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 1651^[[2mms^[[22m^[[39m
@@ -27,12 +27,12 @@ build	Run npm run test:run	2026-11-13T04:39:26.8261532Z    ^[[32m✓^[[39m бе�
 build	Run npm run test:run	2026-11-13T04:39:26.8262593Z    ^[[32m✓^[[39m кнопка передаёт выбранный товар^[[32m 37^[[2mms^[[22m^[[39m
 build	Run npm run test:run	2026-11-13T04:39:26.8263632Z    ^[[32m✓^[[39m карточка показывает категорию из API^[[32m 3^[[2mms^[[22m^[[39m
 build	Run npm run test:run	2026-11-13T04:39:26.8264878Z    ^[[32m✓^[[39m покупатель может добавить товар с клавиатуры^[[32m 21^[[2mms^[[22m^[[39m
-build	Run npm run test:run	2026-11-13T04:39:26.8300257Z 
+build	Run npm run test:run	2026-11-13T04:39:26.8300257Z
 build	Run npm run test:run	2026-11-13T04:39:26.8300793Z ^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m^[[1m^[[41m Failed Tests 1 ^[[49m^[[22m^[[31m⎯⎯⎯⎯⎯⎯⎯^[[39m
-build	Run npm run test:run	2026-11-13T04:39:26.8301293Z 
+build	Run npm run test:run	2026-11-13T04:39:26.8301293Z
 build	Run npm run test:run	2026-11-13T04:39:26.8305751Z ^[[41m^[[1m FAIL ^[[22m^[[49m src/components/ProductCard.test.jsx^[[2m > ^[[22mкарточка показывает цену
 build	Run npm run test:run	2026-11-13T04:39:26.8314608Z ^[[31m^[[1mTestingLibraryElementError^[[22m: Unable to find an element with the text: 451 тг. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
-build	Run npm run test:run	2026-11-13T04:39:26.8315736Z 
+build	Run npm run test:run	2026-11-13T04:39:26.8315736Z
 build	Run npm run test:run	2026-11-13T04:39:26.8316196Z Ignored nodes: comments, script, style
 build	Run npm run test:run	2026-11-13T04:39:26.8316759Z ^[[36m<body>^[[31m
 build	Run npm run test:run	2026-11-13T04:39:26.8317283Z   ^[[36m<div>^[[31m
@@ -73,22 +73,22 @@ build	Run npm run test:run	2026-11-13T04:39:26.8356235Z     ^[[90m 12|^[[39m   e
 build	Run npm run test:run	2026-11-13T04:39:26.8356694Z     ^[[90m   |^[[39m                 ^[[31m^^[[39m
 build	Run npm run test:run	2026-11-13T04:39:26.8356997Z     ^[[90m 13|^[[39m });
 build	Run npm run test:run	2026-11-13T04:39:26.8357381Z     ^[[90m 14|^[[39m test('товар недели и доступное изображение', () => {
-build	Run npm run test:run	2026-11-13T04:39:26.8357770Z 
+build	Run npm run test:run	2026-11-13T04:39:26.8357770Z
 build	Run npm run test:run	2026-11-13T04:39:26.8358273Z ^[[31m^[[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯^[[22m^[[39m
-build	Run npm run test:run	2026-11-13T04:39:26.8359537Z 
-build	Run npm run test:run	2026-11-13T04:39:26.8359559Z 
+build	Run npm run test:run	2026-11-13T04:39:26.8359537Z
+build	Run npm run test:run	2026-11-13T04:39:26.8359559Z
 build	Run npm run test:run	2026-11-13T04:39:26.8365038Z ^[[2m Test Files ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m5 passed^[[39m^[[22m^[[90m (6)^[[39m
 build	Run npm run test:run	2026-11-13T04:39:26.8366166Z ^[[2m      Tests ^[[22m ^[[1m^[[31m1 failed^[[39m^[[22m^[[2m | ^[[22m^[[1m^[[32m36 passed^[[39m^[[22m^[[90m (37)^[[39m
 build	Run npm run test:run	2026-11-13T04:39:26.8366907Z ^[[2m   Start at ^[[22m 04:39:21
 build	Run npm run test:run	2026-11-13T04:39:26.8371410Z ^[[2m   Duration ^[[22m 5.58s^[[2m (tests 38%, environment 38%, setup 16%, transform 4%, import 3%)^[[22m
-build	Run npm run test:run	2026-11-13T04:39:26.8377702Z 
+build	Run npm run test:run	2026-11-13T04:39:26.8377702Z
 build	Run npm run test:run	2026-11-13T04:39:26.8378453Z ^[[2mEnvironment ^[[22m ^[[33mjsdom was created 6 times^[[39m^[[2m · 5.92s total, 38% of tracked time^[[22m
 build	Run npm run test:run	2026-11-13T04:39:26.8380012Z ^[[2m            ^[[22m ^[[2mcreate it once per worker with ^[[22m^[[33mpool: 'vmThreads'^[[39m^[[2m (keeps per-file isolation) or ^[[22m^[[33misolate: false^[[39m^[[2m (shares it across files)^[[22m
 build	Run npm run test:run	2026-11-13T04:39:26.8381565Z ^[[2m            ^[[22m ^[[2mlearn more: https://vitest.dev/guide/improving-performance#test-environments^[[22m
-build	Run npm run test:run	2026-11-13T04:39:26.8382105Z 
-build	Run npm run test:run	2026-11-13T04:39:26.8395198Z 
+build	Run npm run test:run	2026-11-13T04:39:26.8382105Z
+build	Run npm run test:run	2026-11-13T04:39:26.8395198Z
 build	Run npm run test:run	2026-11-13T04:39:26.8420491Z ##[error]TestingLibraryElementError: Unable to find an element with the text: 451 тг. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
-build	Run npm run test:run	
+build	Run npm run test:run
 build	Run npm run test:run	Ignored nodes: comments, script, style
 build	Run npm run test:run	<body>
 build	Run npm run test:run	  <div>
@@ -123,6 +123,6 @@ build	Run npm run test:run	 ❯ node_modules/@testing-library/dom/dist/query-hel
 build	Run npm run test:run	 ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
 build	Run npm run test:run	 ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
 build	Run npm run test:run	 ❯ src/components/ProductCard.test.jsx:12:17
-build	Run npm run test:run	
-build	Run npm run test:run	
+build	Run npm run test:run
+build	Run npm run test:run
 build	Run npm run test:run	2026-11-13T04:39:26.8673403Z ##[error]Process completed with exit code 1.

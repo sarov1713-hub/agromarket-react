@@ -7,13 +7,13 @@
 
  ❯ src/components/ProductCard.test.jsx (7 tests | 1 failed) 338ms
    × карточка показывает цену 13ms
-node.exe : 
+node.exe :
 строка:1 знак:1
 + & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: (:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
 
  FAIL  src/components/ProductCard.test.jsx > карточка показывает цену
@@ -69,4 +69,3 @@ Ignored nodes: comments, script, style
       Tests  1 failed | 6 passed (7)
    Start at  09:26:13
    Duration  2.32s (environment 62%, tests 16%, setup 14%, import 5%, transform 2%, worker 1%)
-

@@ -425,7 +425,7 @@ npx playwright show-trace $trace.FullName
 ### GitHub, доказательства и ответы для защиты
 
 - [PR #10 — тесты/MSW/E2E/CI](https://github.com/sarov1713-hub/agromarket-react/pull/10).
-- PR документации docs/lab12 — ссылка добавляется после создания.
+- [PR #12 — документация и ответы](https://github.com/sarov1713-hub/agromarket-react/pull/12).
 - [PR #11 — намеренно красный, закрыт без merge](https://github.com/sarov1713-hub/agromarket-react/pull/11).
 - [Успешный CI тестового PR](https://github.com/sarov1713-hub/agromarket-react/actions/runs/43366874756).
 - [Красный CI эксперимента](https://github.com/sarov1713-hub/agromarket-react/actions/runs/43366900760).
