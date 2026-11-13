@@ -1,19 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
 
-test('каталог загружается и страница имеет название магазина', async ({ page }) => {
-  await page.goto('/');
-  const card = page.getByRole('article').first();
-  await expect(card.getByRole('heading', { level: 3 })).toBeVisible({ timeout: 60_000 });
-  await expect(card.getByRole('button', { name: 'В корзину' })).toBeVisible();
-  await expect(page).toHaveTitle(/АгроМаркет/);
-});
-
-test('прямая ссылка /login возвращает SPA', async ({ page }) => {
-  const response = await page.goto('/login');
-  expect(response.status()).toBe(200);
-  await expect(page.getByRole('region', { name: 'Вход' })).toBeVisible();
-});
+// Два прежних read-only сценария вынесены в smoke.spec.js.
 
 test('покупатель регистрируется, добавляет товар и отправляет заявку', async ({ page }) => {
   const email = `e2e+${Date.now()}-${randomUUID().slice(0, 8)}@agromarket.test`;
