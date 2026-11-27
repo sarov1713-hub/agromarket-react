@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ProductCard from './ProductCard.jsx';
 
-const product = { id: 1, name: 'Яблоки', price: 450, image: '/apple.jpg' };
+const product = { id: 1, name: 'Яблоки', price: 450, stock: 3, image: '/apple.jpg' };
 test('карточка показывает название', () => {
   render(<ProductCard product={product} />);
   expect(screen.getByRole('heading', { name: 'Яблоки' })).toBeInTheDocument();

@@ -2,7 +2,7 @@ import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App.jsx';
 
-const product = { id: 1, name: 'Яблоки', price: 450, category: 'Фрукты' };
+const product = { id: 1, name: 'Яблоки', price: 450, category: 'Фрукты', stock: 5 };
 const reply = (data, status = 200) => new Response(JSON.stringify(data), { status });
 test('каталог показывает загрузку, затем данные и правильный URL', async () => {
   let resolve;
@@ -36,7 +36,7 @@ test('покупатель добавляет товар и фильтрует �
   vi.spyOn(globalThis, 'fetch').mockResolvedValue(reply([product]));
   render(<App />);
   await userEvent.click(await screen.findByRole('button', { name: 'В корзину' }));
-  expect(screen.getByText(/Корзина: 1/)).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'Корзина (1)' })).toBeInTheDocument();
   await userEvent.type(screen.getByRole('searchbox', { name: 'Поиск товара' }), 'груша');
   expect(screen.getByText('Товаров нет')).toBeInTheDocument();
   expect(screen.queryByRole('heading', { name: 'Яблоки' })).not.toBeInTheDocument();
@@ -45,7 +45,7 @@ test('заявка отправляет JWT и данные пользовате
   localStorage.setItem('token', 'test-token');
   const fetchMock = vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) => {
     if (url.endsWith('/auth/me')) return reply({ id: 5, name: 'Анна', role: 'user' });
-    if (url.endsWith('/orders')) return reply({ id: 42 }, 201);
+    if (url.endsWith('/orders/wholesale')) return reply({ id: 42 }, 201);
     return reply([product]);
   });
   const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
@@ -56,7 +56,7 @@ test('заявка отправляет JWT и данные пользовате
   await userEvent.type(screen.getByLabelText('Телефон'), '+77001234567');
   await userEvent.type(screen.getByLabelText('Объём заказа (кг)'), '10');
   await userEvent.click(screen.getByRole('button', { name: 'Отправить заявку' }));
-  const [, options] = fetchMock.mock.calls.find(([url]) => url.endsWith('/orders'));
+  const [, options] = fetchMock.mock.calls.find(([url]) => url.endsWith('/orders/wholesale'));
   expect(new Headers(options.headers).get('Authorization')).toBe('Bearer test-token');
   expect(options.method).toBe('POST');
   expect(JSON.parse(options.body)).toMatchObject({ name: 'Анна', email: 'anna@example.test', quantity: '10' });
