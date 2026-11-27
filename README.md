@@ -433,4 +433,3 @@ npx playwright show-trace $trace.FullName
 - [13 ответов для защиты](LAB12_DEFENSE.md).
 - [Вывод падающего компонентного теста](docs/lab12/evidence/component-failure.txt), [ошибка E2E](docs/lab12/evidence/e2e-failure.txt), [screenshot](docs/lab12/evidence/e2e-failure.png), [branch protection](docs/lab12/evidence/branch-protection.json).
 
-Осталось получить реальное ревью напарника и слить зелёные PR, затем включить безопасный production-smoke workflow. Обязательных approvals в текущей настройке GitHub 0; это не заменяет ревью из методички. DOCX отсутствовал во вложениях: реализация и отчёт следуют подробному текстовому заданию, сверка с отсутствующим оригиналом не заявляется.
