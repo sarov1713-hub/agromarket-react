@@ -15,7 +15,7 @@ export default function AddProductForm({ onAdded }) {
         setLoading(true);
         try {
             const product = await apiFetch('/products', {
-                method: 'POST', body: JSON.stringify({ ...data, price: Number(data.price) }),
+                method: 'POST', body: JSON.stringify({ ...data, price: Number(data.price), stock: Number(data.stock) }),
             });
             onAdded(product);
             form.reset();
@@ -36,6 +36,8 @@ export default function AddProductForm({ onAdded }) {
                 <input id="product-category" name="category" maxLength={50} required />
                 <label htmlFor="product-price">Цена (тг)</label>
                 <input id="product-price" name="price" type="number" min="1" max="10000000" step="1" required />
+                <label htmlFor="product-stock">Остаток</label>
+                <input id="product-stock" name="stock" type="number" min="0" max="2147483647" step="1" defaultValue="0" required />
                 <label htmlFor="product-unit">Единица измерения</label>
                 <input id="product-unit" name="unit" defaultValue="кг" maxLength={20} required />
                 <FormError error={error} />

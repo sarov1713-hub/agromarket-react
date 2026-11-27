@@ -1,5 +1,6 @@
 
-function ProductCard({ product, onAdd, featured = false }) {
+function ProductCard({ product, onAdd, quantity = 0, featured = false, stockEditor }) {
+    const unavailable = !Number.isInteger(product.stock) || product.stock <= 0;
     return (
         <article className={featured ? 'card card--featured' : 'card'}>
             {featured && (
@@ -19,9 +20,11 @@ function ProductCard({ product, onAdd, featured = false }) {
                 {product.price} тг
             </p>
 
-            <button onClick={() => onAdd(product)}>
-                В корзину
+            {quantity > 0 && <p>В корзине: {quantity}</p>}
+            <button type="button" disabled={unavailable || quantity >= product.stock} onClick={() => onAdd(product)}>
+                {unavailable ? 'Нет в наличии' : 'В корзину'}
             </button>
+            {stockEditor}
         </article>
     );
 }

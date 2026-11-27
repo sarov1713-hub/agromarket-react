@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import ProductCard from './components/ProductCard';
 import Header from './components/Header';
@@ -8,6 +8,11 @@ import ContactForm from './components/ContactForm';
 import { apiFetch } from './api.js';
 import LoginForm from './components/LoginForm.jsx';
 import AddProductForm from './components/AddProductForm.jsx';
+import ProductStockForm from './components/ProductStockForm.jsx';
+import { CartContext } from './cart/CartContext.js';
+import { CartProvider } from './cart/CartProvider.jsx';
+import CartPage from './cart/CartPage.jsx';
+import OrdersPage from './cart/OrdersPage.jsx';
 
 import potatoImage from './assets/products/potato.jpg';
 import honeyImage from './assets/products/honey.jpg';
@@ -28,7 +33,13 @@ function addProductImage(product) {
     };
 }
 
-function App() {
+function Store() {
+    const { count, items, add } = useContext(CartContext);
+    const [currentUrl, setCurrentUrl] = useState(() => window.location.href);
+    const { pathname, searchParams } = new URL(currentUrl);
+    const isCart = /^\/cart\/?$/.test(pathname);
+    const isOrders = /^\/orders\/?$/.test(pathname);
+    const showCatalog = !isCart && !isOrders;
     const [authMessage, setAuthMessage] = useState('');
 
     const [user, setUser] = useState(() => {
@@ -43,9 +54,16 @@ function App() {
 
     const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [cartCount, setCartCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        function onPopState() {
+            setCurrentUrl(window.location.href);
+        }
+        window.addEventListener('popstate', onPopState);
+        return () => window.removeEventListener('popstate', onPopState);
+    }, []);
 
     useEffect(() => {
         function onExpired() {
@@ -61,7 +79,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) return;
+        if (!showCatalog || !localStorage.getItem('token')) return;
 
         let active = true;
 
@@ -80,7 +98,7 @@ function App() {
         return () => {
             active = false;
         };
-    }, []);
+    }, [showCatalog]);
 
     function handleLogin(currentUser, token) {
         setAuthMessage('');
@@ -103,6 +121,7 @@ function App() {
 
     // Загрузка товаров с Express API
     useEffect(() => {
+        if (isOrders) return;
         async function loadProducts() {
             try {
                 const data = await apiFetch('/products');
@@ -121,7 +140,7 @@ function App() {
         }
 
         loadProducts();
-    }, []);
+    }, [isOrders]);
 
     // Поиск товаров
     const filteredProducts = products.filter((product) =>
@@ -130,15 +149,30 @@ function App() {
             .includes(searchTerm.toLowerCase())
     );
 
-    // Добавление товара в корзину
-    function handleAddToCart() {
-        setCartCount((prevCount) => prevCount + 1);
+    function openCreatedOrder(id) {
+        window.history.pushState(null, '', `/orders?created=${encodeURIComponent(id)}`);
+        setCurrentUrl(window.location.href);
+    }
+
+    if (!showCatalog) {
+        const created = searchParams.get('created');
+        return (
+            <>
+                <Header cartCount={count} />
+                <main className="page account-page">
+                    {isCart
+                        ? <CartPage onCreated={openCreatedOrder} products={loading || error ? null : products} />
+                        : <OrdersPage created={/^\d+$/.test(created || '') ? created : null} />}
+                </main>
+                <Footer />
+            </>
+        );
     }
 
     return (
         <>
             {/* Шапка сайта */}
-            <Header cartCount={cartCount} />
+            <Header cartCount={count} />
 
             {/* Основное содержимое */}
             <main className="page">
@@ -192,7 +226,15 @@ function App() {
                                 <ProductCard
                                     key={product.id}
                                     product={product}
-                                    onAdd={handleAddToCart}
+                                    onAdd={add}
+                                    quantity={items.find((item) => item.id === product.id)?.quantity}
+                                    stockEditor={user?.role === 'admin' && (
+                                        <ProductStockForm product={product} onSaved={(updated) =>
+                                            setProducts((current) => current.map((item) =>
+                                                item.id === updated.id ? addProductImage(updated) : item
+                                            ))
+                                        } />
+                                    )}
                                     featured={
                                         String(product.id) === '1'
                                     }
@@ -272,4 +314,6 @@ function App() {
     );
 }
 
-export default App;
+export default function App() {
+    return <CartProvider><Store /></CartProvider>;
+}

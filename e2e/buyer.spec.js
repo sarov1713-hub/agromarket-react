@@ -5,7 +5,7 @@ test('каталог загружается и страница имеет на�
   await page.goto('/');
   const card = page.getByRole('article').first();
   await expect(card.getByRole('heading', { level: 3 })).toBeVisible({ timeout: 60_000 });
-  await expect(card.getByRole('button', { name: 'В корзину' })).toBeVisible();
+  await expect(card.getByRole('button', { name: /В корзину|Нет в наличии/ })).toBeVisible();
   await expect(page).toHaveTitle(/АгроМаркет/);
 });
 
@@ -15,7 +15,8 @@ test('прямая ссылка /login возвращает SPA', async ({ page 
   await expect(page.getByRole('region', { name: 'Вход' })).toBeVisible();
 });
 
-test('покупатель регистрируется, добавляет товар и отправляет заявку', async ({ page }) => {
+test('покупатель регистрируется и отправляет оптовую заявку', async ({ page }) => {
+  test.skip(process.env.E2E_ORDERS_LOCAL !== '1', 'Оптовая заявка создаётся только на тестовой БД');
   const email = `e2e+${Date.now()}-${randomUUID().slice(0, 8)}@agromarket.test`;
   await page.goto('/');
   await expect(page.getByRole('article').first()).toBeVisible({ timeout: 60_000 });
@@ -26,8 +27,6 @@ test('покупатель регистрируется, добавляет то
   await register.getByLabel('Пароль').fill('E2e-Test-Password-123');
   await register.getByRole('button', { name: 'Зарегистрироваться', exact: true }).click();
   await expect(page.getByRole('region', { name: 'Аккаунт' })).toContainText('E2E Покупатель');
-  await page.getByRole('article').first().getByRole('button', { name: 'В корзину' }).click();
-  await expect(page.getByText('🛒 Корзина: 1')).toBeVisible();
   await page.getByLabel('Имя / организация').fill('E2E Покупатель');
   await page.getByLabel('Email', { exact: true }).fill(email);
   await page.getByLabel('Телефон').fill('+77000000000');

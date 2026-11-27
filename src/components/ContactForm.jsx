@@ -8,7 +8,7 @@ function ContactForm() {
         const data = Object.fromEntries(new FormData(form));
 
         try {
-            const result = await apiFetch('/orders', {
+            const result = await apiFetch('/orders/wholesale', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
