@@ -1,0 +1,71 @@
+
+> agromarket-react@0.0.0 test
+> vitest run --run src/components/ProductCard.test.jsx
+
+
+ RUN  v5.0.5 D:/agromarket-react
+
+ ❯ src/components/ProductCard.test.jsx (7 tests | 1 failed) 338ms
+   × карточка показывает цену 13ms
+node.exe :
+строка:1 знак:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/ProductCard.test.jsx > карточка показывает цену
+TestingLibraryElementError: Unable to find an element with the text: 451 тг. This could be because the text is broken u
+p by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexib
+le.
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <article
+      class="card"
+      data-testid="product-card"
+    >
+      <img
+        alt="Яблоки"
+        src="/apple.jpg"
+      />
+      <h3>
+        Яблоки
+      </h3>
+      <p>
+        Фрукты
+      </p>
+      <p
+        class="price"
+      >
+        450
+         тг
+      </p>
+      <button>
+        В корзину
+      </button>
+    </article>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/ProductCard.test.jsx:12:17
+     10| test('карточка показывает цену', () => {
+     11|   render(<ProductCard product={product} />);
+     12|   expect(screen.getByText('451 тг')).toBeInTheDocument();
+       |                 ^
+     13| });
+     14| test('товар недели и доступное изображение', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  09:26:13
+   Duration  2.32s (environment 62%, tests 16%, setup 14%, import 5%, transform 2%, worker 1%)

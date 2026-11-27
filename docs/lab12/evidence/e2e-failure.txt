@@ -1,0 +1,61 @@
+
+> agromarket-react@0.0.0 e2e
+> playwright test e2e/smoke.spec.js --grep каталог --trace on --output .lab12-local/trace-failure
+
+node.exe : [WebServer] (node:321320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+строка:1 знак:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([WebServer] (no... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+Администратор создан; пароль сохранён как bcrypt hash
+База инициализирована. Товаров: 4
+
+Running 1 test using 1 worker
+
+(node:321516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\smoke.spec.js:11:1 › @smoke каталог загружается и страница имеет название магазина (2.0s)
+
+
+  1) e2e\smoke.spec.js:11:1 › @smoke каталог загружается и страница имеет название магазина ────────
+
+    Error: expect(page).toHaveTitle(expected) failed
+
+    Expected pattern: /Intentional-Lab12-Wrong-Title/
+    Received string:  "АгроМаркет — фермерские продукты"
+    Timeout: 1000ms
+
+    Call log:
+      - Expect "toHaveTitle" with timeout 1000ms
+        11 × locator resolved to <html lang="ru">…</html>
+           - unexpected value "АгроМаркет — фермерские продукты"
+
+
+      15 |   await expect(card.getByRole('button', { name: 'В корзину' })).toBeVisible();
+      16 |   await expect(card.getByRole('img')).toBeVisible();
+    > 17 |   await expect(page).toHaveTitle(/Intentional-Lab12-Wrong-Title/, { timeout: 1000 });
+         |                      ^
+      18 |   await expect(page.getByText('Не удалось загрузить товары')).toHaveCount(0);
+      19 | });
+      20 |
+        at D:\agromarket-react\e2e\smoke.spec.js:17:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    .lab12-local\trace-failure\smoke--smoke-каталог-загру-85942-ица-имеет-название-магазина\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: .lab12-local\trace-failure\smoke--smoke-каталог-загру-85942-ица-имеет-название-магазина\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    .lab12-local\trace-failure\smoke--smoke-каталог-загру-85942-ица-имеет-название-магазина\trace.zip
+    Usage:
+
+        npx playwright show-trace .lab12-local\trace-failure\smoke--smoke-каталог-загру-85942-ица-имеет-название-магазина\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\smoke.spec.js:11:1 › @smoke каталог загружается и страница имеет название магазина ─────────
