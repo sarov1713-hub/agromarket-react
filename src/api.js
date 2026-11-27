@@ -12,7 +12,7 @@ export async function apiFetch(path, options = {}) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         window.dispatchEvent(new Event('auth:expired'));
-        throw new Error('Сессия истекла. Войдите заново.');
+        throw Object.assign(new Error('Сессия истекла. Войдите заново.'), { status: 401 });
     }
     const data = res.status === 204 ? null : await res.json();
     if (!res.ok) {

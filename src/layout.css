@@ -72,6 +72,39 @@ img {
     color: #fff;
 }
 
+.order-list {
+    display: grid;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+}
+
+.order-list > li {
+    display: grid;
+    justify-items: start;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #d5e3d5;
+    border-radius: 6px;
+}
+
+.cart-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.order-list button {
+    padding: 6px 10px;
+    font: inherit;
+}
+
+.card button:disabled, .cart-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 
 /* ========================================
    3. Основной макет страницы
@@ -84,6 +117,10 @@ img {
     max-width: 1280px;
     margin: 0 auto;
     padding: 16px;
+}
+
+.page.account-page {
+    display: block;
 }
 
 /* Приветственный блок */
